@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package com.github.cevaris.gapi;
+
+message EchoRequest {
+    string message = 1;
+}
