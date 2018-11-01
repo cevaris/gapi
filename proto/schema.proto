@@ -2,6 +2,19 @@ syntax = "proto3";
 
 package com.github.cevaris.gapi;
 
-message EchoRequest {
-    string message = 1;
+message Identification {
+    string email = 1;
+    string password = 2;
+}
+
+message CreateApiKeyRequest {
+    Identification identification = 1;
+}
+message CreateApiKeyResponse {
+    string key = 1;
+}
+
+service GapiService {
+    rpc CreateApiKey (CreateApiKeyRequest) returns (CreateApiKeyResponse) {
+    }
 }

@@ -6,6 +6,8 @@ package com_github_cevaris_gapi
 import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
 	math "math"
 )
 
@@ -20,58 +22,226 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type EchoRequest struct {
-	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+type Identification struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *EchoRequest) Reset()         { *m = EchoRequest{} }
-func (m *EchoRequest) String() string { return proto.CompactTextString(m) }
-func (*EchoRequest) ProtoMessage()    {}
-func (*EchoRequest) Descriptor() ([]byte, []int) {
+func (m *Identification) Reset()         { *m = Identification{} }
+func (m *Identification) String() string { return proto.CompactTextString(m) }
+func (*Identification) ProtoMessage()    {}
+func (*Identification) Descriptor() ([]byte, []int) {
 	return fileDescriptor_1c5fb4d8cc22d66a, []int{0}
 }
 
-func (m *EchoRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_EchoRequest.Unmarshal(m, b)
+func (m *Identification) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Identification.Unmarshal(m, b)
 }
-func (m *EchoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_EchoRequest.Marshal(b, m, deterministic)
+func (m *Identification) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Identification.Marshal(b, m, deterministic)
 }
-func (m *EchoRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_EchoRequest.Merge(m, src)
+func (m *Identification) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Identification.Merge(m, src)
 }
-func (m *EchoRequest) XXX_Size() int {
-	return xxx_messageInfo_EchoRequest.Size(m)
+func (m *Identification) XXX_Size() int {
+	return xxx_messageInfo_Identification.Size(m)
 }
-func (m *EchoRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_EchoRequest.DiscardUnknown(m)
+func (m *Identification) XXX_DiscardUnknown() {
+	xxx_messageInfo_Identification.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_EchoRequest proto.InternalMessageInfo
+var xxx_messageInfo_Identification proto.InternalMessageInfo
 
-func (m *EchoRequest) GetMessage() string {
+func (m *Identification) GetEmail() string {
 	if m != nil {
-		return m.Message
+		return m.Email
+	}
+	return ""
+}
+
+func (m *Identification) GetPassword() string {
+	if m != nil {
+		return m.Password
+	}
+	return ""
+}
+
+type CreateApiKeyRequest struct {
+	Identification       *Identification `protobuf:"bytes,1,opt,name=identification,proto3" json:"identification,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
+}
+
+func (m *CreateApiKeyRequest) Reset()         { *m = CreateApiKeyRequest{} }
+func (m *CreateApiKeyRequest) String() string { return proto.CompactTextString(m) }
+func (*CreateApiKeyRequest) ProtoMessage()    {}
+func (*CreateApiKeyRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{1}
+}
+
+func (m *CreateApiKeyRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateApiKeyRequest.Unmarshal(m, b)
+}
+func (m *CreateApiKeyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateApiKeyRequest.Marshal(b, m, deterministic)
+}
+func (m *CreateApiKeyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateApiKeyRequest.Merge(m, src)
+}
+func (m *CreateApiKeyRequest) XXX_Size() int {
+	return xxx_messageInfo_CreateApiKeyRequest.Size(m)
+}
+func (m *CreateApiKeyRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateApiKeyRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateApiKeyRequest proto.InternalMessageInfo
+
+func (m *CreateApiKeyRequest) GetIdentification() *Identification {
+	if m != nil {
+		return m.Identification
+	}
+	return nil
+}
+
+type CreateApiKeyResponse struct {
+	Key                  string   `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *CreateApiKeyResponse) Reset()         { *m = CreateApiKeyResponse{} }
+func (m *CreateApiKeyResponse) String() string { return proto.CompactTextString(m) }
+func (*CreateApiKeyResponse) ProtoMessage()    {}
+func (*CreateApiKeyResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{2}
+}
+
+func (m *CreateApiKeyResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CreateApiKeyResponse.Unmarshal(m, b)
+}
+func (m *CreateApiKeyResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CreateApiKeyResponse.Marshal(b, m, deterministic)
+}
+func (m *CreateApiKeyResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CreateApiKeyResponse.Merge(m, src)
+}
+func (m *CreateApiKeyResponse) XXX_Size() int {
+	return xxx_messageInfo_CreateApiKeyResponse.Size(m)
+}
+func (m *CreateApiKeyResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateApiKeyResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_CreateApiKeyResponse proto.InternalMessageInfo
+
+func (m *CreateApiKeyResponse) GetKey() string {
+	if m != nil {
+		return m.Key
 	}
 	return ""
 }
 
 func init() {
-	proto.RegisterType((*EchoRequest)(nil), "com.github.cevaris.gapi.EchoRequest")
+	proto.RegisterType((*Identification)(nil), "com.github.cevaris.gapi.Identification")
+	proto.RegisterType((*CreateApiKeyRequest)(nil), "com.github.cevaris.gapi.CreateApiKeyRequest")
+	proto.RegisterType((*CreateApiKeyResponse)(nil), "com.github.cevaris.gapi.CreateApiKeyResponse")
 }
 
 func init() { proto.RegisterFile("schema.proto", fileDescriptor_1c5fb4d8cc22d66a) }
 
 var fileDescriptor_1c5fb4d8cc22d66a = []byte{
-	// 103 bytes of a gzipped FileDescriptorProto
+	// 227 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x29, 0x4e, 0xce, 0x48,
 	0xcd, 0x4d, 0xd4, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x4f, 0xce, 0xcf, 0xd5, 0x4b, 0xcf,
 	0x2c, 0xc9, 0x28, 0x4d, 0xd2, 0x4b, 0x4e, 0x2d, 0x4b, 0x2c, 0xca, 0x2c, 0xd6, 0x4b, 0x4f, 0x2c,
-	0xc8, 0x54, 0x52, 0xe7, 0xe2, 0x76, 0x4d, 0xce, 0xc8, 0x0f, 0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e,
-	0x11, 0x92, 0xe0, 0x62, 0xcf, 0x4d, 0x2d, 0x2e, 0x4e, 0x4c, 0x4f, 0x95, 0x60, 0x54, 0x60, 0xd4,
-	0xe0, 0x0c, 0x82, 0x71, 0x93, 0xd8, 0xc0, 0x06, 0x19, 0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0x64,
-	0xf5, 0xeb, 0x90, 0x58, 0x00, 0x00, 0x00,
+	0xc8, 0x54, 0x72, 0xe2, 0xe2, 0xf3, 0x4c, 0x49, 0xcd, 0x2b, 0xc9, 0x4c, 0xcb, 0x4c, 0x4e, 0x2c,
+	0xc9, 0xcc, 0xcf, 0x13, 0x12, 0xe1, 0x62, 0x4d, 0xcd, 0x4d, 0xcc, 0xcc, 0x91, 0x60, 0x54, 0x60,
+	0xd4, 0xe0, 0x0c, 0x82, 0x70, 0x84, 0xa4, 0xb8, 0x38, 0x0a, 0x12, 0x8b, 0x8b, 0xcb, 0xf3, 0x8b,
+	0x52, 0x24, 0x98, 0xc0, 0x12, 0x70, 0xbe, 0x52, 0x1a, 0x97, 0xb0, 0x73, 0x51, 0x6a, 0x62, 0x49,
+	0xaa, 0x63, 0x41, 0xa6, 0x77, 0x6a, 0x65, 0x50, 0x6a, 0x61, 0x69, 0x6a, 0x71, 0x89, 0x90, 0x3f,
+	0x17, 0x5f, 0x26, 0x8a, 0xd1, 0x60, 0x13, 0xb9, 0x8d, 0xd4, 0xf5, 0x70, 0x38, 0x46, 0x0f, 0xd5,
+	0x25, 0x41, 0x68, 0xda, 0x95, 0x34, 0xb8, 0x44, 0x50, 0xed, 0x29, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e,
+	0x15, 0x12, 0xe0, 0x62, 0xce, 0x4e, 0xad, 0x84, 0xba, 0x17, 0xc4, 0x34, 0xaa, 0xe1, 0xe2, 0x76,
+	0x4f, 0x2c, 0xc8, 0x0c, 0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0x15, 0xca, 0xe5, 0xe2, 0x41, 0xd6,
+	0x28, 0xa4, 0x83, 0xd3, 0x05, 0x58, 0xfc, 0x21, 0xa5, 0x4b, 0xa4, 0x6a, 0x88, 0x6b, 0x94, 0x18,
+	0x92, 0xd8, 0xc0, 0x61, 0x6e, 0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0xd0, 0xb2, 0x13, 0xeb, 0x83,
+	0x01, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// GapiServiceClient is the client API for GapiService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type GapiServiceClient interface {
+	CreateApiKey(ctx context.Context, in *CreateApiKeyRequest, opts ...grpc.CallOption) (*CreateApiKeyResponse, error)
+}
+
+type gapiServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewGapiServiceClient(cc *grpc.ClientConn) GapiServiceClient {
+	return &gapiServiceClient{cc}
+}
+
+func (c *gapiServiceClient) CreateApiKey(ctx context.Context, in *CreateApiKeyRequest, opts ...grpc.CallOption) (*CreateApiKeyResponse, error) {
+	out := new(CreateApiKeyResponse)
+	err := c.cc.Invoke(ctx, "/com.github.cevaris.gapi.GapiService/CreateApiKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// GapiServiceServer is the server API for GapiService service.
+type GapiServiceServer interface {
+	CreateApiKey(context.Context, *CreateApiKeyRequest) (*CreateApiKeyResponse, error)
+}
+
+func RegisterGapiServiceServer(s *grpc.Server, srv GapiServiceServer) {
+	s.RegisterService(&_GapiService_serviceDesc, srv)
+}
+
+func _GapiService_CreateApiKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateApiKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GapiServiceServer).CreateApiKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/com.github.cevaris.gapi.GapiService/CreateApiKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GapiServiceServer).CreateApiKey(ctx, req.(*CreateApiKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _GapiService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "com.github.cevaris.gapi.GapiService",
+	HandlerType: (*GapiServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateApiKey",
+			Handler:    _GapiService_CreateApiKey_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "schema.proto",
 }
