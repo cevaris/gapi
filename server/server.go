@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	port = flag.Int("port", 10000, "The server port")
+	port = flag.Int("port", 9090, "The server port")
 )
 
 type gapiServiceServer struct {
@@ -28,7 +28,7 @@ func main() {
 	log.SetFormatter(&log.JSONFormatter{})
 
 	flag.Parse()
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))
+	lis, err := net.Listen("tcp", fmt.Sprintf("0.0.0.0:%d", *port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

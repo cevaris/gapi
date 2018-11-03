@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	serverAddr = flag.String("server_addr", ":10000", "The server address in the format of host:port")
+	serverAddr = flag.String("server_addr", ":9090", "The server address in the format of host:port")
 )
 
 func main() {
