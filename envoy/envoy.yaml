@@ -21,7 +21,7 @@ static_resources:
               domains: ["*"]
               routes:
               - match: { prefix: "/" }
-                route: { cluster: echo_service }
+                route: { cluster: gapi_service }
               cors:
                 allow_origin:
                 - "*"
@@ -35,9 +35,9 @@ static_resources:
           - name: envoy.cors
           - name: envoy.router
   clusters:
-  - name: echo_service
+  - name: gapi_service
     connect_timeout: 0.25s
     type: logical_dns
     http2_protocol_options: {}
     lb_policy: round_robin
-    hosts: [{ socket_address: { address: node-server, port_value: 9090 }}]
+    hosts: [{ socket_address: { address: gapi-server, port_value: 9090 }}]
